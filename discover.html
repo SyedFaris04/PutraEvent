@@ -486,6 +486,26 @@
             },
             {
                 id: 3,
+                title: "Python Programming Bootcamp",
+                category: "academic",
+                categoryLabel: "Academic",
+                icon: "💻",
+                date: "Jan 20-21, 2025",
+                time: "9:00 AM - 4:00 PM",
+                location: "Computer Lab 3, Faculty of Computer Science",
+                organizer: "UPM Computing Society",
+                capacity: 50,
+                registered: 48,
+                access: "UPM Students Only",
+                status: "filling",
+                description: "Intensive 2-day bootcamp covering Python basics to advanced topics. Perfect for beginners.",
+                fullDescription: "Master Python programming in just two days! Build real projects including a web scraper and data analyzer.",
+                requirements: ["Laptop with Python installed", "Basic computer skills"],
+                speaker: "Muhammad Haziq (Senior Developer at Grab)",
+                fee: "RM 30 (includes materials and certificate)"
+            },
+            {
+                id: 4,
                 title: "Inter-Faculty Football Championship",
                 category: "sports",
                 categoryLabel: "Sports & Recreation",
@@ -505,7 +525,27 @@
                 fee: "RM 50 per team registration"
             },
             {
-                id: 4,
+                id: 5,
+                title: "Yoga & Wellness Morning",
+                category: "sports",
+                categoryLabel: "Sports & Recreation",
+                icon: "🧘",
+                date: "Every Saturday",
+                time: "7:00 AM - 8:30 AM",
+                location: "Lake Gardens, UPM",
+                organizer: "UPM Wellness Club",
+                capacity: 40,
+                registered: 28,
+                access: "Open to Public",
+                status: "open",
+                description: "Weekly outdoor yoga sessions for all skill levels. Start your weekend with mindfulness and relaxation.",
+                fullDescription: "Join our peaceful morning yoga sessions perfect for stress relief and fitness.",
+                requirements: ["Yoga mat (or we provide)", "Comfortable clothing", "Water bottle"],
+                speaker: "Instructor: Nurul Hana (Certified Yoga Teacher)",
+                fee: "RM 10 per session or RM 35 monthly pass"
+            },
+            {
+                id: 6,
                 title: "Cultural Night: ASEAN Showcase",
                 category: "cultural",
                 categoryLabel: "Cultural & Arts",
@@ -525,7 +565,7 @@
                 fee: "Free admission"
             },
             {
-                id: 5,
+                id: 7,
                 title: "Innovation Challenge 2025",
                 category: "competition",
                 categoryLabel: "Competitions",
@@ -543,6 +583,26 @@
                 requirements: ["Team of 2-5 members", "Laptop", "Prototype materials"],
                 speaker: "Judged by VCs and industry leaders",
                 fee: "RM 100 per team"
+            },
+            {
+                id: 8,
+                title: "Community Service: Charity Drive",
+                category: "volunteer",
+                categoryLabel: "Volunteer & Community",
+                icon: "❤️",
+                date: "Feb 22, 2025",
+                time: "8:00 AM - 2:00 PM",
+                location: "Kg. Seri Kembangan",
+                organizer: "UPM Volunteer Corps",
+                capacity: 60,
+                registered: 45,
+                access: "UPM Students Only",
+                status: "open",
+                description: "Join us for a day of giving back! Activities include food distribution and community service.",
+                fullDescription: "Make a difference in the lives of those who need it most.",
+                requirements: ["Comfortable work clothes", "Sun protection", "Water bottle"],
+                speaker: "Coordinated by Student Affairs Division",
+                fee: "Free (lunch provided)"
             }
         ];
 
@@ -630,10 +690,17 @@
                         <h3>About This Event</h3>
                         <p>${event.fullDescription}</p>
                     </div>
+                    <div class="detail-section">
+                        <h3>Requirements</h3>
+                        <ul>
+                            ${event.requirements.map(req => `<li>${req}</li>`).join('')}
+                        </ul>
+                    </div>
                     <div class="register-section">
                         <h3>Ready to Join?</h3>
-                        <p class="register-info">Fee: ${event.fee}</p>
-                        <button class="btn-register" onclick="alert('Registration system coming soon!')">Register Now</button>
+                        <p class="register-info"><strong>Speaker/Organizer:</strong> ${event.speaker}</p>
+                        <p class="register-info"><strong>Fee:</strong> ${event.fee}</p>
+                        <button class="btn-register" onclick="window.open('register.html?eventId=${event.id}', '_blank')">Register Now</button>
                     </div>
                 </div>
             `;
