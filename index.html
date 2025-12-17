@@ -1046,7 +1046,7 @@
                         <h3>Ready to Join?</h3>
                         <p class="register-info"><strong>Speaker/Organizer:</strong> ${event.speaker}</p>
                         <p class="register-info"><strong>Fee:</strong> ${event.fee}</p>
-                        <button class="btn-register" onclick="alert('Registration system coming soon!')">Register Now</button>
+                        <button class="btn-register" onclick="window.open('register.html?eventId=${event.id}', '_blank')">Register Now</button>
                     </div>
                 </div>
             `;
