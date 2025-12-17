@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform - PutraEvent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.2rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .section {
+            padding: 120px 5% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.95;
+        }
+
+        .platform-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .platform-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .platform-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 2rem 5%;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="index.html" class="logo">🎉 PutraEvent</a>
+            <ul class="nav-links">
+                <li><a href="discover.html" target="_blank">Discover</a></li>
+                <li><a href="problem.html" target="_blank">Problem</a></li>
+                <li><a href="features.html" target="_blank">Features</a></li>
+                <li><a href="platform.html" target="_blank">Platform</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="platform" class="section platform-section">
+        <h2 class="section-title">Available Everywhere</h2>
+        <p class="section-subtitle">Access PutraEvent on your preferred device</p>
+        <div class="platform-grid">
+            <div class="platform-card">
+                <div class="platform-icon">💻</div>
+                <h3>Web Platform</h3>
+                <p>Full-featured experience on any browser</p>
+            </div>
+            <div class="platform-card">
+                <div class="platform-icon">📱</div>
+                <h3>Mobile App</h3>
+                <p>Discover events on the go with our mobile experience</p>
+            </div>
+            <div class="platform-card">
+                <div class="platform-icon">🌐</div>
+                <h3>Cross-Platform</h3>
+                <p>Seamlessly sync across all your devices</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 PutraEvent - UPM Event Hub. Built for the UPM community.</p>
+    </footer>
+</body>
+</html>

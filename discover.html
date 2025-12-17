@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Events - PutraEvent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.2rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .section {
+            padding: 120px 5% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #718096;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .events-section {
+            background: #ffffff;
+        }
+
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.7rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #4a5568;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .event-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .event-body {
+            padding: 1.5rem;
+        }
+
+        .event-category {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: #edf2f7;
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .event-title {
+            font-size: 1.3rem;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-description {
+            color: #4a5568;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .event-access {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.85rem;
+            color: #718096;
+        }
+
+        .event-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-open {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-filling {
+            background: #fef5e7;
+            color: #975a16;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s;
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: sticky;
+            top: 0;
+            right: 0;
+            float: right;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #718096;
+            cursor: pointer;
+            z-index: 1;
+            background: white;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0 20px 0 0;
+        }
+
+        .close-btn:hover {
+            color: #2d3748;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem 2rem;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-header h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-body-content {
+            padding: 2rem;
+        }
+
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+
+        .detail-section h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: start;
+            gap: 0.8rem;
+        }
+
+        .detail-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .detail-text {
+            flex: 1;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .detail-value {
+            color: #718096;
+        }
+
+        .register-section {
+            background: #f7fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .register-section h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .register-info {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-register {
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 2rem 5%;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="index.html" class="logo">🎉 PutraEvent</a>
+            <ul class="nav-links">
+                <li><a href="discover.html" target="_blank">Discover</a></li>
+                <li><a href="problem.html" target="_blank">Problem</a></li>
+                <li><a href="features.html" target="_blank">Features</a></li>
+                <li><a href="platform.html" target="_blank">Platform</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="events" class="section events-section">
+        <h2 class="section-title">Explore Campus Events</h2>
+        <p class="section-subtitle">Discover what's happening at UPM across different categories</p>
+        
+        <div class="category-filters">
+            <button class="filter-btn active" onclick="filterEvents('all')">All Events</button>
+            <button class="filter-btn" onclick="filterEvents('academic')">📚 Academic</button>
+            <button class="filter-btn" onclick="filterEvents('sports')">⚽ Sports & Recreation</button>
+            <button class="filter-btn" onclick="filterEvents('cultural')">🎭 Cultural & Arts</button>
+            <button class="filter-btn" onclick="filterEvents('social')">🤝 Social & Networking</button>
+            <button class="filter-btn" onclick="filterEvents('competition')">🏆 Competitions</button>
+            <button class="filter-btn" onclick="filterEvents('volunteer')">❤️ Volunteer & Community</button>
+        </div>
+
+        <div class="events-grid" id="eventsGrid"></div>
+    </section>
+
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 PutraEvent - UPM Event Hub. Built for the UPM community.</p>
+    </footer>
+
+    <script>
+        const events = [
+            {
+                id: 1,
+                title: "Research Methodology Workshop",
+                category: "academic",
+                categoryLabel: "Academic",
+                icon: "📚",
+                date: "Jan 25, 2025",
+                time: "2:00 PM - 5:00 PM",
+                location: "Dewan Kuliah 1, Faculty of Engineering",
+                organizer: "UPM Research & Innovation",
+                capacity: 150,
+                registered: 87,
+                access: "UPM Students Only",
+                status: "open",
+                description: "Learn essential research skills for your final year project. Topics include literature review, methodology design, data analysis, and academic writing.",
+                fullDescription: "This comprehensive workshop is designed to equip students with the fundamental research skills needed for academic success.",
+                requirements: ["Laptop (optional)", "Notebook and pen", "Current student ID"],
+                speaker: "Prof. Dr. Ahmad Ibrahim & Dr. Sarah Lee",
+                fee: "Free for UPM students"
+            },
+            {
+                id: 2,
+                title: "Career Fair 2025",
+                category: "academic",
+                categoryLabel: "Academic",
+                icon: "💼",
+                date: "Feb 10-11, 2025",
+                time: "9:00 AM - 5:00 PM",
+                location: "Dewan Besar, Canselori",
+                organizer: "Career Services Center",
+                capacity: 2000,
+                registered: 856,
+                access: "Open to Public",
+                status: "open",
+                description: "Meet top employers from various industries. Job opportunities, internships, and networking sessions available.",
+                fullDescription: "The annual UPM Career Fair brings together over 100 companies from diverse industries.",
+                requirements: ["Professional attire", "Multiple copies of resume"],
+                speaker: "100+ participating companies",
+                fee: "Free admission"
+            },
+            {
+                id: 3,
+                title: "Inter-Faculty Football Championship",
+                category: "sports",
+                categoryLabel: "Sports & Recreation",
+                icon: "⚽",
+                date: "Feb 1-15, 2025",
+                time: "4:00 PM onwards",
+                location: "UPM Sports Complex",
+                organizer: "UPM Sports Council",
+                capacity: 300,
+                registered: 234,
+                access: "UPM Students Only",
+                status: "open",
+                description: "Annual football tournament featuring teams from all faculties. Prizes for top 3 teams!",
+                fullDescription: "The most anticipated sports event of the year! Watch or participate as faculties compete for glory.",
+                requirements: ["Team of 11-16 players", "Faculty student ID verification"],
+                speaker: "Officiated by Malaysian Football League referees",
+                fee: "RM 50 per team registration"
+            },
+            {
+                id: 4,
+                title: "Cultural Night: ASEAN Showcase",
+                category: "cultural",
+                categoryLabel: "Cultural & Arts",
+                icon: "🎭",
+                date: "Mar 5, 2025",
+                time: "7:00 PM - 10:00 PM",
+                location: "Dewan Besar, Canselori",
+                organizer: "International Students Association",
+                capacity: 800,
+                registered: 432,
+                access: "Open to Public",
+                status: "open",
+                description: "Experience the diversity of ASEAN through traditional dances, music, and cultural exhibitions.",
+                fullDescription: "A spectacular evening celebrating Southeast Asian cultures!",
+                requirements: ["No registration needed for audience"],
+                speaker: "Performances by 200+ international students",
+                fee: "Free admission"
+            },
+            {
+                id: 5,
+                title: "Innovation Challenge 2025",
+                category: "competition",
+                categoryLabel: "Competitions",
+                icon: "💡",
+                date: "Mar 1-2, 2025",
+                time: "9:00 AM - 6:00 PM",
+                location: "Innovation Hub",
+                organizer: "UPM Entrepreneurship Center",
+                capacity: 100,
+                registered: 67,
+                access: "Open to Public",
+                status: "open",
+                description: "Pitch your innovative ideas and compete for RM 10,000 in prizes. 48-hour hackathon format.",
+                fullDescription: "Transform your ideas into reality! This competition challenges participants to develop innovative solutions.",
+                requirements: ["Team of 2-5 members", "Laptop", "Prototype materials"],
+                speaker: "Judged by VCs and industry leaders",
+                fee: "RM 100 per team"
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        function renderEvents() {
+            const grid = document.getElementById('eventsGrid');
+            const filteredEvents = currentFilter === 'all' 
+                ? events 
+                : events.filter(e => e.category === currentFilter);
+
+            grid.innerHTML = filteredEvents.map(event => `
+                <div class="event-card" onclick="openModal(${event.id})">
+                    <div class="event-image">${event.icon}</div>
+                    <div class="event-body">
+                        <span class="event-category">${event.categoryLabel}</span>
+                        <h3 class="event-title">${event.title}</h3>
+                        <div class="event-meta">
+                            <div class="event-meta-item">📅 ${event.date}</div>
+                            <div class="event-meta-item">⏰ ${event.time}</div>
+                            <div class="event-meta-item">📍 ${event.location}</div>
+                        </div>
+                        <p class="event-description">${event.description}</p>
+                        <div class="event-footer">
+                            <div class="event-access">🔒 ${event.access}</div>
+                            <span class="event-status status-${event.status}">${event.status === 'open' ? 'Open' : 'Filling Fast'}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterEvents(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderEvents();
+        }
+
+        function openModal(eventId) {
+            const event = events.find(e => e.id === eventId);
+            const modal = document.getElementById('eventModal');
+            const modalBody = document.getElementById('modalBody');
+
+            modalBody.innerHTML = `
+                <div class="modal-header">
+                    <h2>${event.icon} ${event.title}</h2>
+                    <span class="event-category">${event.categoryLabel}</span>
+                </div>
+                <div class="modal-body-content">
+                    <div class="detail-section">
+                        <h3>Event Details</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <span class="detail-icon">📅</span>
+                                <div class="detail-text">
+                                    <div class="detail-label">Date</div>
+                                    <div class="detail-value">${event.date}</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏰</span>
+                                <div class="detail-text">
+                                    <div class="detail-label">Time</div>
+                                    <div class="detail-value">${event.time}</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <div class="detail-text">
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">${event.location}</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <div class="detail-text">
+                                    <div class="detail-label">Capacity</div>
+                                    <div class="detail-value">${event.registered}/${event.capacity} registered</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <h3>About This Event</h3>
+                        <p>${event.fullDescription}</p>
+                    </div>
+                    <div class="register-section">
+                        <h3>Ready to Join?</h3>
+                        <p class="register-info">Fee: ${event.fee}</p>
+                        <button class="btn-register" onclick="alert('Registration system coming soon!')">Register Now</button>
+                    </div>
+                </div>
+            `;
+
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('eventModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('eventModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        renderEvents();
+    </script>
+</body>
+</html>
