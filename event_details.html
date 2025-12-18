@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details - PutraEvent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 1.5rem auto;
+            padding: 0 5%;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        /* Event Content */
+        .event-content {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .event-banner {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            position: relative;
+        }
+
+        .event-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .badge-public {
+            background: #10b981;
+            color: white;
+        }
+
+        .badge-student {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .event-body {
+            padding: 2rem;
+        }
+
+        .event-body h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1e3c72;
+        }
+
+        .event-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .meta-icon {
+            font-size: 1.3rem;
+        }
+
+        .category-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .tag {
+            background: #e5e7eb;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: #1e3c72;
+        }
+
+        .event-description {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .organizer-info {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .organizer-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Registration Sidebar */
+        .registration-sidebar {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .registration-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .capacity-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .capacity-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            background: #e5e7eb;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            background: #3b82f6;
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .progress-fill.high {
+            background: #ef4444;
+        }
+
+        .capacity-subtext {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-open {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-closed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-full {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-primary {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff5722;
+            transform: translateY(-2px);
+        }
+
+        .btn-disabled {
+            background: #d1d5db;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        .btn-registered {
+            background: #10b981;
+            color: white;
+            cursor: default;
+        }
+
+        .verification-notice {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+        }
+
+        .verification-notice p {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .verification-notice a {
+            color: #3b82f6;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        /* Registration Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1rem;
+            color: #1e3c72;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #1e3c72;
+            border: 2px solid #1e3c72;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .registration-sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .event-banner {
+                height: 250px;
+                font-size: 4rem;
+            }
+
+            .event-body h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">🎉 PutraEvent</a>
+            <div class="nav-links">
+                <a href="events.html">Events</a>
+                <a href="my-registrations.html">My Registrations</a>
+                <a href="login.html">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="events.html">Events</a> / <a href="#">Academic</a> / UPM Career Fair 2026
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Event Content -->
+        <div class="event-content">
+            <div class="event-banner">
+                🎓
+                <span class="event-badge badge-public">Open to All</span>
+            </div>
+            
+            <div class="event-body">
+                <h1>UPM Career Fair 2026</h1>
+                
+                <div class="category-tags">
+                    <span class="tag">📚 Academic</span>
+                    <span class="tag">🤝 Networking</span>
+                </div>
+
+                <div class="event-meta">
+                    <div class="meta-item">
+                        <span class="meta-icon">📅</span>
+                        <span>January 15, 2026 (Wednesday)</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">🕐</span>
+                        <span>9:00 AM - 5:00 PM</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">📍</span>
+                        <span>Dewan Besar, Universiti Putra Malaysia</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">👤</span>
+                        <span>Career Development Center</span>
+                    </div>
+                </div>
+
+                <h2 class="section-title">About This Event</h2>
+                <div class="event-description">
+                    <p>Join us for the largest career fair at UPM! Connect with over 100 leading companies across various industries including technology, engineering, finance, healthcare, and more.</p>
+                    <br>
+                    <p>This is your opportunity to:</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li>Network with industry professionals and recruiters</li>
+                        <li>Submit your resume directly to hiring managers</li>
+                        <li>Learn about internship and full-time opportunities</li>
+                        <li>Attend career development workshops</li>
+                        <li>Get your resume reviewed by experts</li>
+                    </ul>
+                    <br>
+                    <p><strong>What to bring:</strong> Printed copies of your resume, professional attire recommended.</p>
+                </div>
+
+                <h2 class="section-title">Organizer Information</h2>
+                <div class="organizer-info">
+                    <h3>Career Development Center</h3>
+                    <p><strong>Contact:</strong> career@upm.edu.my</p>
+                    <p><strong>Phone:</strong> +603-8946 6000</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Sidebar -->
+        <aside class="registration-sidebar">
+            <div class="registration-card">
+                <div class="capacity-section">
+                    <div class="capacity-text">450 / 500 Registered</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%;"></div>
+                    </div>
+                    <div class="capacity-subtext">50 spots remaining</div>
+                </div>
+
+                <span class="status-badge status-open">✓ Registration Open</span>
+
+                <!-- Default state: Not logged in for student-only event -->
+                <!-- <div class="verification-notice">
+                    <p><strong>⚠️ UPM Students Only</strong></p>
+                    <p>Please verify your UPM email to register for this event.</p>
+                    <a href="login.html">Verify Now →</a>
+                </div>
+                <button class="btn btn-disabled" disabled>Register Now</button> -->
+
+                <!-- State: Can register -->
+                <button class="btn btn-primary" onclick="showRegistrationModal()">Register Now</button>
+
+                <!-- State: Already registered (use this after registration) -->
+                <!-- <button class="btn btn-registered">✓ Registered</button>
+                <p style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem;">You're registered for this event</p> -->
+
+                <!-- State: Event full -->
+                <!-- <span class="status-badge status-full">⚠️ Event Full</span>
+                <button class="btn btn-disabled" disabled>Event Full</button> -->
+
+                <!-- State: Registration closed -->
+                <!-- <span class="status-badge status-closed">✕ Registration Closed</span>
+                <button class="btn btn-disabled" disabled>Registration Closed</button> -->
+            </div>
+        </aside>
+    </div>
+
+    <!-- Registration Confirmation Modal -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">✅</div>
+            <h2>You're Registered!</h2>
+            <p>A confirmation has been sent to your email address.</p>
+            <p style="margin-top: 1rem;"><strong>UPM Career Fair 2026</strong><br>January 15, 2026 • 9:00 AM</p>
+            <div class="modal-buttons">
+                <a href="my-registrations.html" class="btn btn-primary">View My Registrations</a>
+                <a href="events.html" class="btn btn-secondary">Browse More Events</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showRegistrationModal() {
+            document.getElementById('registrationModal').classList.add('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('registrationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PutraEvent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 90%;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-section h1 {
+            font-size: 2rem;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-section p {
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .helper-text {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #999;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .success-message {
+            display: none;
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            color: #065f46;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h3 {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <h1>🎉 PutraEvent</h1>
+            <p>Sign in to access student-only events</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">UPM Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    placeholder="your.name@student.upm.edu.my"
+                    required
+                    pattern=".*@(student\.)?upm\.edu\.my$"
+                >
+                <p class="helper-text">Use your official UPM email address to verify your student status</p>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="organizer">
+                <label for="organizer">I am an event organizer</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send Verification Link</button>
+
+            <div class="divider">or</div>
+
+            <a href="events.html" class="btn btn-secondary">Continue as Guest</a>
+        </form>
+
+        <div id="successMessage" class="success-message">
+            <h3>✅ Check Your Email!</h3>
+            <p>We've sent a verification link to your email address.</p>
+            <p style="margin-top: 1rem;">
+                <a href="events.html" style="color: #065f46; text-decoration: underline;">Back to Events</a>
+            </p>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulate email verification
+            const email = document.getElementById('email').value;
+            
+            if (email.endsWith('@student.upm.edu.my') || email.endsWith('@upm.edu.my')) {
+                document.querySelector('form').style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+            } else {
+                alert('Please use a valid UPM email address');
+            }
+        });
+    </script>
+</body>
+</html>
